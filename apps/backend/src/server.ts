@@ -1,34 +1,50 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-import { PlaceholderSchema } from '@zeno/shared';
+import { connectDB } from './config/db';
+import { configureRoutes } from './config/routes';
+import { setupProcessErrorHandlers } from './config/processHandlers';
+
+// Setup process-level error handlers early before running any code
+setupProcessErrorHandlers();
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 
-app.use(cors());
-app.use(express.json());
+// Core Global Middleware
+app.use(
+  cors({
+    origin: FRONTEND_URL,
+    credentials: true,
+  })
+);
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.get('/health', (req: Request, res: Response) => {
-  res.json({
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    service: 'zeno-backend'
-  });
-});
+// Centralized Route Configuration (Mounts feature routes, 404 handler, and global errorHandler)
+configureRoutes(app);
 
-app.get('/api/test-shared', (req: Request, res: Response) => {
-  const result = PlaceholderSchema.safeParse({ id: 'test-1', name: 'Zeno Interview Prep' });
-  res.json({
-    success: result.success,
-    data: result.success ? result.data : null
-  });
-});
+// Initialize Database and Start Server
+const startServer = async () => {
+  try {
+    await connectDB();
+    const server = app.listen(PORT, () => {
+      console.log(`🚀 Zeno Backend running on http://localhost:${PORT}`);
+    });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Zeno Backend running on http://localhost:${PORT}`);
-});
+    // Wire up graceful shutdown with the active HTTP server instance
+    setupProcessErrorHandlers(server);
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 export default app;

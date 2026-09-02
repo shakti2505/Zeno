@@ -1,13 +1,14 @@
-import React from 'react';
-import { PlaceholderSchema, type PlaceholderType } from '@zeno/shared';
+import { RequirementSchema, type Requirement } from '@zeno/shared';
 import { Sparkles, CheckCircle2, Terminal, Layers } from 'lucide-react';
 
-const sampleKit: PlaceholderType = {
-  id: 'zeno-init',
-  name: 'Zeno Interview Preparation System'
+const sampleRequirement: Requirement = {
+  id: 'req-frontend-1',
+  text: 'Demonstrate responsive UI design and fullstack authentication integration',
+  kind: 'technical',
+  priority: 'must'
 };
 
-const validationResult = PlaceholderSchema.safeParse(sampleKit);
+const validationResult = RequirementSchema.safeParse(sampleRequirement);
 
 export default function App() {
   return (
@@ -54,11 +55,11 @@ export default function App() {
 
           <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">Backend</span>
+              <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">Backend Auth</span>
               <Terminal className="w-4 h-4 text-emerald-400" />
             </div>
-            <div className="text-lg font-semibold text-white">Express + TypeScript</div>
-            <div className="text-xs text-slate-400 font-mono">Port: 3000 (Mongoose, BullMQ, Redis)</div>
+            <div className="text-lg font-semibold text-white">JWT + HttpOnly Cookie</div>
+            <div className="text-xs text-slate-400 font-mono">Mongoose, Bcryptjs, Express</div>
           </div>
 
           <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 flex flex-col gap-2">
@@ -68,7 +69,7 @@ export default function App() {
             </div>
             <div className="text-lg font-semibold text-white">@zeno/shared</div>
             <div className="text-xs text-emerald-400 font-mono">
-              {validationResult.success ? '✓ Schema imported successfully' : 'Schema error'}
+              {validationResult.success ? '✓ Kit schemas imported' : 'Schema error'}
             </div>
           </div>
         </div>

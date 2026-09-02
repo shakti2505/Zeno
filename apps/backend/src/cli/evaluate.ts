@@ -1,10 +1,15 @@
-import { PlaceholderSchema } from '@zeno/shared';
+import { RequirementSchema } from '@zeno/shared';
 
 async function evaluate() {
   console.log('--- Starting Zeno Interview Kit Evaluation Pipeline ---');
-  const sample = { id: 'eval-1', name: 'Evaluation Pipeline Demo' };
-  const validated = PlaceholderSchema.parse(sample);
-  console.log('Validated sample input with shared schema:', validated);
+  const sampleRequirement = {
+    id: 'req-eval-1',
+    text: 'Demonstrate deep understanding of distributed systems and caching strategies',
+    kind: 'technical' as const,
+    priority: 'must' as const,
+  };
+  const validated = RequirementSchema.parse(sampleRequirement);
+  console.log('Validated sample requirement with @zeno/shared schema:', validated);
   console.log('Evaluation pipeline execution completed successfully.');
 }
 
