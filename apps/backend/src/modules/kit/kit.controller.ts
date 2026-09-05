@@ -6,9 +6,15 @@ import { NotFoundError } from '../../utils/AppError';
 export const createKit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const userId = req.userId!;
-    const kit = await kitService.createKit(userId, req.body);
+    const { jobDescription, companyUrl, days } = req.body;
 
-    sendCreated(res, { kit }, 'Interview preparation kit generation initialized successfully.');
+    const result = await kitService.createKit(userId, {
+      jobDescription,
+      companyUrl,
+      days: days ? Number(days) : undefined,
+    });
+
+    sendCreated(res, result, 'Interview preparation kit generation queued successfully.');
   } catch (error) {
     next(error);
   }
@@ -56,7 +62,6 @@ export const updateKit = async (req: Request, res: Response, next: NextFunction)
 
     sendSuccess(res, { kit: updatedKit }, 'Interview preparation kit updated and validated successfully.');
   } catch (error) {
-    // If it's a ZodError or AppError or Mongoose error, passing to next(error) will format it with precision
     next(error);
   }
 };

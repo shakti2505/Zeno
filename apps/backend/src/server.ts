@@ -1,3 +1,6 @@
+// Initialize background queue worker listeners on startup
+import './modules/kit/kit.worker';
+
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';

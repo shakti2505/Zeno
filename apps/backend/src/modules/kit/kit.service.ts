@@ -1,29 +1,64 @@
-import { Kit, IKit, KitStatus } from './kit.model';
+import { Kit, KitStatus } from './kit.model';
 import { KitSchema, Kit as KitType } from '@zeno/shared';
+import { KitGenerationQueue } from './kit.worker';
+import { BadRequestError } from '../../utils/AppError';
 
-export interface CreateKitPayload {
-  status?: KitStatus;
-  data?: KitType;
-  errorMessage?: string;
+export interface CreateKitInput {
+  jobDescription: string;
+  companyUrl?: string;
+  days?: number;
+}
+
+export interface KitCreationResult {
+  _id: string;
+  status: KitStatus;
+  createdAt: Date;
 }
 
 /**
- * Creates a new interview kit record atomically
+ * 1. Creates new Kit in MongoDB with status: 'generating'
+ * 2. Enqueues background BullMQ job for asynchronous LLM generation
+ * 3. Returns the created kit ID and status
  */
-export const createKit = async (userId: string, payload?: CreateKitPayload): Promise<any> => {
-  const [createdKit] = await Kit.create(
-    [
-      {
-        userId,
-        status: payload?.status || 'generating',
-        data: payload?.data || null,
-        errorMessage: payload?.errorMessage || null,
+export const createKit = async (userId: string, payload: CreateKitInput): Promise<KitCreationResult> => {
+  if (!payload || !payload.jobDescription || payload.jobDescription.trim().length === 0) {
+    throw new BadRequestError('Job description text is required to generate an interview preparation kit.');
+  }
+
+  // 1 & 2. Create and save new Kit document to MongoDB
+  const kit = new Kit({
+    userId,
+    status: 'generating',
+    data: null,
+    errorMessage: null,
+  });
+  await kit.save();
+
+  // 3. Enqueue background LLM generation job in BullMQ
+  await KitGenerationQueue.add(
+    'generate-kit',
+    {
+      kitId: kit._id.toString(),
+      userId,
+      jobDescription: payload.jobDescription.trim(),
+      companyUrl: payload.companyUrl?.trim(),
+      days: payload.days,
+    },
+    {
+      attempts: 3,
+      backoff: {
+        type: 'exponential',
+        delay: 5000,
       },
-    ],
-    { validateBeforeSave: true }
+    }
   );
 
-  return createdKit.toObject();
+  // 4. Return kit ID and status immediately to the caller
+  return {
+    _id: kit._id.toString(),
+    status: kit.status,
+    createdAt: kit.createdAt,
+  };
 };
 
 /**

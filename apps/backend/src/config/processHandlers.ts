@@ -1,5 +1,6 @@
 import http from 'http';
 import mongoose from 'mongoose';
+import { redisConnection } from './redis';
 
 /**
  * Attaches process-level listeners to catch unhandled errors, unhandled promise rejections,
@@ -51,8 +52,13 @@ export const setupProcessErrorHandlers = (server?: http.Server): void => {
         await mongoose.connection.close();
         console.log('🍃 MongoDB connection closed gracefully.');
       }
+
+      if (redisConnection.status === 'ready' || redisConnection.status === 'connecting') {
+        await redisConnection.quit();
+        console.log('🔌 Redis connection closed gracefully.');
+      }
     } catch (err) {
-      console.error('Error closing MongoDB connection during shutdown:', err);
+      console.error('Error closing database/redis connections during shutdown:', err);
     }
 
     process.exit(0);

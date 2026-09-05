@@ -1,4 +1,3 @@
-
 import { z } from 'zod';
 
 export const SourceSchema = z.object({
@@ -84,3 +83,9 @@ export type Kit = z.infer<typeof KitSchema>;
 export type Question = z.infer<typeof QuestionSchema>;
 export type Flashcard = z.infer<typeof FlashcardSchema>;
 export type Requirement = z.infer<typeof RequirementSchema>;
+export type Role = z.infer<typeof RoleSchema>;
+export type CompanyBrief = z.infer<typeof CompanyBriefSchema>;
+export type Source = z.infer<typeof SourceSchema>;
+export type Schedule = z.infer<typeof ScheduleSchema>;
+export type ScheduleDay = z.infer<typeof ScheduleDaySchema>;
+export type Coverage = z.infer<typeof CoverageSchema>;
