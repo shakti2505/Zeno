@@ -70,12 +70,12 @@ export const loginUser = async (email: string, password: string): Promise<AuthRe
   // Fetch unhydrated user document with lean() for optimal performance
   const user = await User.findOne({ email: normalizedEmail }).lean();
   if (!user) {
-    throw new UnauthorizedError('Invalid email or password provided. Please verify your credentials.');
+    throw new UnauthorizedError('No account found with this email address. Please check your email or create an account.');
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw new UnauthorizedError('Invalid email or password provided. Please verify your credentials.');
+    throw new UnauthorizedError('Incorrect password. Please verify your password and try again.');
   }
 
   const token = jwt.sign({ userId: user._id.toString() }, JWT_SECRET, {
