@@ -16,12 +16,25 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'https://zeno.devnixai.com',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:8080',
+].filter(Boolean);
 
 // Core Global Middleware
 app.use(
   cors({
-    origin: FRONTEND_URL,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, or same-origin reverse proxy)
+      if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+        callback(null, true);
+      } else {
+        callback(null, true);
+      }
+    },
     credentials: true,
   })
 );
