@@ -354,7 +354,7 @@ To execute the automated batch generation evaluation script:
 
 ```bash
 # From the project root:
-npm run evaluate
+npm run evaluate -- --input <path> --output <path>
 ```
 
 Or directly inside `apps/backend`:
@@ -387,6 +387,5 @@ npx ts-node src/cli/evaluate.ts
 
 ---
 
-## 👥 Authors & License
+## 👥 Authors
 - **Project**: Zeno AI Interview Copilot
-- **License**: MIT License
