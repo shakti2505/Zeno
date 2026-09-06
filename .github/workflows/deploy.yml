@@ -1,4 +1,4 @@
-name: Deploy JITPrep to VPS
+name: Deploy zeno to VPS
 
 on:
   push:
