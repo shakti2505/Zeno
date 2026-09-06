@@ -174,7 +174,16 @@ export const regenerateCategoryService = async (
   // 4. Use LLM with structured output to generate 3-4 new questions
   const model = getChatModel();
   const RegenerateOutputSchema = z.object({
-    questions: z.array(QuestionSchema),
+    questions: z.array(
+      z.object({
+        id: z.string().describe('Unique ID like q_technical_1'),
+        requirement_ids: z.array(z.string()).describe('List of requirement IDs tested'),
+        category: z.enum(['technical', 'behavioural', 'system-design', 'company-fit']),
+        prompt: z.string().describe('Interview question prompt'),
+        answer_outline: z.string().describe('Comprehensive outline of good answer'),
+        difficulty: z.number().int().min(1).max(3).default(2).describe('Difficulty score from 1 to 3'),
+      })
+    ),
   });
 
   const prompt = `You are an expert technical interviewer and curriculum designer.
@@ -196,9 +205,8 @@ Instructions:
 1. Category must strictly be "${category}".
 2. Explicitly link at least one valid requirement ID from [${validReqIds.join(', ')}] in "requirement_ids".
 3. Provide a clear, substantive "prompt" and detailed "answer_outline".
-4. Set difficulty between 1 and 3.
-5. Set "isPinned": false.
-6. Generate unique question IDs (e.g. q_${category}_${Date.now()}_1).`;
+4. MUST explicitly include "difficulty": 1 (Easy), 2 (Medium), or 3 (Hard) for each question.
+5. Generate unique question IDs (e.g. q_${category}_${Date.now()}_1).`;
 
   let newQuestions: Question[] = [];
 

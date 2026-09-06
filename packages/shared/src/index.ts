@@ -36,7 +36,7 @@ export const QuestionSchema = z.object({
   category: z.enum(['technical', 'behavioural', 'system-design', 'company-fit']),
   prompt: z.string(),
   answer_outline: z.string(),
-  difficulty: z.number().int().min(1).max(3),
+  difficulty: z.number().int().min(1).max(3).default(2),
   // Extension allowed by spec: tracks if user edited/created this (so we don't overwrite it on regeneration)
   isPinned: z.boolean().default(false).optional(),
 });
