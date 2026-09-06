@@ -176,52 +176,50 @@ export const regenerateCategoryService = async (
   const RegenerateOutputSchema = z.object({
     questions: z.array(
       z.object({
-        id: z.string().describe('Unique ID like q_technical_1'),
-        requirement_ids: z.array(z.string()).describe('List of requirement IDs tested'),
+        id: z.string().describe('Unique ID like q1, q2, q3'),
+        requirement_ids: z.array(z.string()).describe('Array of requirement IDs tested by this question'),
         category: z.enum(['technical', 'behavioural', 'system-design', 'company-fit']),
-        prompt: z.string().describe('Interview question prompt'),
-        answer_outline: z.string().describe('Comprehensive outline of good answer'),
-        difficulty: z.number().int().min(1).max(3).default(2).describe('Difficulty score from 1 to 3'),
+        prompt: z.string().describe('The interview question text'),
+        answer_outline: z.string().describe('Comprehensive bulleted outline of expected answer and key heuristics'),
+        difficulty: z.number().int().min(1).max(3).default(2).describe('Difficulty score from 1 (Easy) to 3 (Hard)'),
       })
     ),
   });
 
-  const prompt = `You are an expert technical interviewer and curriculum designer.
-Generate 3 to 4 brand new, highly realistic, and in-depth interview questions specifically for the category: "${category}".
+  const prompt = `You are an expert technical interviewer creating interview questions.
+Generate 3 to 4 realistic and in-depth interview questions for the category: "${category}".
 
-Target Role:
-- Title: ${currentKit.role.title}
-- Seniority: ${currentKit.role.seniority || 'Mid-Senior'}
-- Responsibilities: ${(currentKit.role.responsibilities || []).join('; ') || 'N/A'}
+Target Role: ${currentKit.role.title} (${currentKit.role.seniority || 'Mid-Senior'})
+Target Company: ${currentKit.source.company}
+Company Overview: ${currentKit.company_brief.summary}
 
-Company Context:
-- Company: ${currentKit.source.company}
-- Summary: ${currentKit.company_brief.summary}
-
-Applicable Requirements to Target:
+Requirements to test:
 ${matchingRequirements.map((r) => `- [${r.id}] (${r.priority.toUpperCase()} / ${r.kind}): ${r.text}`).join('\n')}
 
-Instructions:
-1. Category must strictly be "${category}".
-2. Explicitly link at least one valid requirement ID from [${validReqIds.join(', ')}] in "requirement_ids".
-3. Provide a clear, substantive "prompt" and detailed "answer_outline".
-4. MUST explicitly include "difficulty": 1 (Easy), 2 (Medium), or 3 (Hard) for each question.
-5. Generate unique question IDs (e.g. q_${category}_${Date.now()}_1).`;
+Allowed Requirement IDs: [${validReqIds.join(', ')}]
+
+Rules:
+1. "category" must be "${category}".
+2. "requirement_ids" must contain at least one ID from the Allowed Requirement IDs list.
+3. "difficulty" must be an integer: 1 (Easy), 2 (Medium), or 3 (Hard).
+4. Provide a detailed question in "prompt" and a comprehensive scoring guide in "answer_outline".`;
 
   let newQuestions: Question[] = [];
 
   try {
     const structuredLlm = model.withStructuredOutput(RegenerateOutputSchema);
-    const output = (await structuredLlm.invoke(prompt)) as { questions: Question[] };
+    const output = (await structuredLlm.invoke(prompt)) as { questions: any[] };
 
     // 5. Apply strict guardrails on LLM output
     newQuestions = (output.questions || []).map((q, idx) => ({
-      id: q.id || `q_${category}_${Date.now()}_${idx + 1}`,
+      id: `q_${category}_${Date.now()}_${idx + 1}`,
       category: category as any,
-      prompt: q.prompt,
-      answer_outline: q.answer_outline || '',
-      difficulty: (q.difficulty >= 1 && q.difficulty <= 3 ? q.difficulty : 2) as 1 | 2 | 3,
-      requirement_ids: (q.requirement_ids || []).filter((id) => validReqIds.includes(id)),
+      prompt: q.prompt || `Explain your experience with ${matchingRequirements[0]?.text || category}.`,
+      answer_outline: q.answer_outline || 'Provide a structured answer with technical trade-offs.',
+      difficulty: (typeof q.difficulty === 'number' && q.difficulty >= 1 && q.difficulty <= 3 ? q.difficulty : 2) as 1 | 2 | 3,
+      requirement_ids: Array.isArray(q.requirement_ids) && q.requirement_ids.length > 0
+        ? q.requirement_ids.filter((id: string) => validReqIds.includes(id))
+        : [validReqIds[0]],
       isPinned: false,
     })).map((q) => ({
       ...q,
