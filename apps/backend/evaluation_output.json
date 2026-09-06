@@ -1,0 +1,330 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-09-06T07:16:45.935Z",
+  "kits": [
+    {
+      "id": "case-01-perfect",
+      "status": "ok",
+      "kit": {
+        "source": {
+          "company": "stripe.com",
+          "company_url": "https://stripe.com",
+          "role": "Senior React Developer",
+          "location": "Unspecified",
+          "jd_chars": 181,
+          "researched_at": "2026-09-06T07:16:30.897Z",
+          "pages_used": [
+            "https://stripe.com",
+            "https://stripe.com/in/customers/jobber"
+          ]
+        },
+        "company_brief": {
+          "summary": "Stripe provides financial infrastructure to help businesses grow their revenue by accepting payments, offering financial services, and implementing custom revenue models. They support a wide range of payment methods and currencies, ensuring reliable and optimized payment processing for businesses of all sizes.",
+          "what_they_do": "Stripe offers a comprehensive set of payments and financial tools designed to work individually or together, enabling businesses to manage subscriptions, billing, and payments efficiently.",
+          "sources": [
+            "https://stripe.com",
+            "https://stripe.com/in/customers/jobber"
+          ]
+        },
+        "role": {
+          "title": "Senior React Developer",
+          "seniority": "Senior",
+          "responsibilities": [
+            "mentoring juniors",
+            "system architecture"
+          ],
+          "requirements": [
+            {
+              "id": "r1",
+              "text": "5 years experience in Next.js",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "r2",
+              "text": "experience in Tailwind",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "r3",
+              "text": "experience in Node.js",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "r4",
+              "text": "experience in GraphQL",
+              "kind": "technical",
+              "priority": "nice"
+            }
+          ]
+        },
+        "questions": [
+          {
+            "id": "q1",
+            "requirement_ids": [
+              "r1"
+            ],
+            "category": "technical",
+            "prompt": "Can you explain the key features of Next.js that make it suitable for building scalable applications?",
+            "answer_outline": "Discuss features like server-side rendering, static site generation, API routes, and image optimization. Mention how these features contribute to performance and SEO.",
+            "difficulty": 2
+          },
+          {
+            "id": "q2",
+            "requirement_ids": [
+              "r2"
+            ],
+            "category": "technical",
+            "prompt": "How does Tailwind CSS improve the development process compared to traditional CSS frameworks?",
+            "answer_outline": "Explain utility-first approach, customization, responsiveness, and how it reduces the need for custom CSS. Discuss the benefits of rapid prototyping and maintainability.",
+            "difficulty": 2
+          },
+          {
+            "id": "q3",
+            "requirement_ids": [
+              "r3"
+            ],
+            "category": "technical",
+            "prompt": "What are the advantages of using Node.js for backend development in a financial application?",
+            "answer_outline": "Discuss non-blocking I/O, event-driven architecture, scalability, and the ability to use JavaScript across the stack. Mention specific use cases in financial applications.",
+            "difficulty": 2
+          },
+          {
+            "id": "q4",
+            "requirement_ids": [
+              "r4"
+            ],
+            "category": "technical",
+            "prompt": "Can you describe how GraphQL can be beneficial in a financial application?",
+            "answer_outline": "Discuss the advantages of flexible data fetching, reducing over-fetching, and how it can improve performance and user experience in financial applications.",
+            "difficulty": 2
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "f1",
+            "front": "What are the key features of Next.js?",
+            "back": "Server-side rendering, static site generation, API routes, image optimization.",
+            "requirement_ids": [
+              "r1"
+            ]
+          },
+          {
+            "id": "f2",
+            "front": "What is the utility-first approach in Tailwind CSS?",
+            "back": "A methodology that allows developers to build designs directly in their markup using utility classes, promoting rapid prototyping and reducing custom CSS.",
+            "requirement_ids": [
+              "r2"
+            ]
+          },
+          {
+            "id": "f3",
+            "front": "What are the benefits of using Node.js for backend development?",
+            "back": "Non-blocking I/O, event-driven architecture, scalability, and the ability to use JavaScript across the stack.",
+            "requirement_ids": [
+              "r3"
+            ]
+          },
+          {
+            "id": "f4",
+            "front": "How does GraphQL improve data fetching in applications?",
+            "back": "It allows clients to request only the data they need, reducing over-fetching and improving performance.",
+            "requirement_ids": [
+              "r4"
+            ]
+          }
+        ],
+        "schedule": {
+          "days_available": 4,
+          "days": [
+            {
+              "day": 1,
+              "focus": "Deep Dive: Technical",
+              "question_ids": [
+                "q1"
+              ],
+              "minutes": 30
+            },
+            {
+              "day": 2,
+              "focus": "Deep Dive: Technical",
+              "question_ids": [
+                "q2"
+              ],
+              "minutes": 30
+            },
+            {
+              "day": 3,
+              "focus": "Deep Dive: Technical",
+              "question_ids": [
+                "q3"
+              ],
+              "minutes": 30
+            },
+            {
+              "day": 4,
+              "focus": "Deep Dive: Technical",
+              "question_ids": [
+                "q4"
+              ],
+              "minutes": 30
+            }
+          ]
+        },
+        "coverage": {
+          "uncovered_requirement_ids": [],
+          "passes": 1
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "case-02-bad-url",
+      "status": "ok",
+      "kit": {
+        "source": {
+          "company": "localhost",
+          "company_url": "http://localhost:9999/does-not-exist",
+          "role": "Backend Engineer",
+          "location": "Unspecified",
+          "jd_chars": 72,
+          "researched_at": "2026-09-06T07:16:38.326Z",
+          "pages_used": [
+            "http://localhost:9999/does-not-exist"
+          ]
+        },
+        "company_brief": {
+          "summary": "No public company information could be retrieved.",
+          "what_they_do": "",
+          "sources": []
+        },
+        "role": {
+          "title": "Backend Engineer",
+          "seniority": "Not specified",
+          "responsibilities": [],
+          "requirements": [
+            {
+              "id": "r1",
+              "text": "Must know Python",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "r2",
+              "text": "Must have experience with Django",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "r3",
+              "text": "Must have AWS experience",
+              "kind": "technical",
+              "priority": "must"
+            }
+          ]
+        },
+        "questions": [],
+        "flashcards": [],
+        "schedule": {
+          "days_available": 2,
+          "days": [
+            {
+              "day": 1,
+              "focus": "Day 1: Comprehensive Review & Practice",
+              "question_ids": [],
+              "minutes": 15
+            },
+            {
+              "day": 2,
+              "focus": "Day 2: Comprehensive Review & Practice",
+              "question_ids": [],
+              "minutes": 15
+            }
+          ]
+        },
+        "coverage": {
+          "uncovered_requirement_ids": [
+            "r1",
+            "r2",
+            "r3"
+          ],
+          "passes": 2
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "case-03-thin-jd",
+      "status": "ok",
+      "kit": {
+        "source": {
+          "company": "github.com",
+          "company_url": "https://github.com",
+          "role": "coder",
+          "location": "Unspecified",
+          "jd_chars": 16,
+          "researched_at": "2026-09-06T07:16:45.934Z",
+          "pages_used": [
+            "https://github.com",
+            "https://github.com/team"
+          ]
+        },
+        "company_brief": {
+          "summary": "GitHub is a platform that facilitates collaboration among developers, agents, and code, enabling them to build software together. It offers tools like GitHub Copilot to assist in writing, testing, and fixing code efficiently throughout the software development lifecycle.",
+          "what_they_do": "GitHub provides a collaborative platform for developers to work together on code, utilizing features such as GitHub Copilot for AI-assisted coding and GitHub Actions for CI/CD automation.",
+          "sources": [
+            "https://github.com",
+            "https://github.com/team"
+          ]
+        },
+        "role": {
+          "title": "coder",
+          "seniority": "not specified",
+          "responsibilities": [],
+          "requirements": [
+            {
+              "id": "r1",
+              "text": "coder",
+              "kind": "technical",
+              "priority": "must"
+            }
+          ]
+        },
+        "questions": [],
+        "flashcards": [],
+        "schedule": {
+          "days_available": 3,
+          "days": [
+            {
+              "day": 1,
+              "focus": "Day 1: Comprehensive Review & Practice",
+              "question_ids": [],
+              "minutes": 15
+            },
+            {
+              "day": 2,
+              "focus": "Day 2: Comprehensive Review & Practice",
+              "question_ids": [],
+              "minutes": 15
+            },
+            {
+              "day": 3,
+              "focus": "Day 3: Comprehensive Review & Practice",
+              "question_ids": [],
+              "minutes": 15
+            }
+          ]
+        },
+        "coverage": {
+          "uncovered_requirement_ids": [
+            "r1"
+          ],
+          "passes": 2
+        }
+      },
+      "error": null
+    }
+  ]
+}

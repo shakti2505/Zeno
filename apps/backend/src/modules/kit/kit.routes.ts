@@ -10,6 +10,8 @@ router.use(authMiddleware);
 router.get('/', kitController.getKits);
 router.get('/:id', kitController.getKitById);
 router.post('/', kitController.createKit);
+router.post('/:id/regenerate', kitController.regenerateCategory);
+router.patch('/:id/flashcards/progress', kitController.updateFlashcardConfidence);
 router.put('/:id', kitController.updateKit);
 router.delete('/:id', kitController.deleteKit);
 

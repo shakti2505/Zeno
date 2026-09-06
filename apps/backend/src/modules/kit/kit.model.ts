@@ -8,6 +8,7 @@ export interface IKit extends Document {
   status: KitStatus;
   data?: KitData;
   errorMessage?: string;
+  flashcardProgress?: Map<string, number>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -35,6 +36,11 @@ const KitSchema = new Schema<IKit>(
     errorMessage: {
       type: String,
       default: null,
+    },
+    flashcardProgress: {
+      type: Map,
+      of: Number,
+      default: {},
     },
   },
   {

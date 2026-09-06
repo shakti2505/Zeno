@@ -1,0 +1,20 @@
+[
+  {
+    "id": "case-01-perfect",
+    "jd": "Senior React Developer. Must have 5 years experience in Next.js, Tailwind, and Node.js. Bonus points for GraphQL. Responsibilities include mentoring juniors and system architecture.",
+    "company_url": "https://stripe.com",
+    "days": 4
+  },
+  {
+    "id": "case-02-bad-url",
+    "jd": "Backend Engineer. Must know Python and Django. Must have AWS experience.",
+    "company_url": "http://localhost:9999/does-not-exist",
+    "days": 2
+  },
+  {
+    "id": "case-03-thin-jd",
+    "jd": "We need a coder.",
+    "company_url": "https://github.com",
+    "days": 3
+  }
+]

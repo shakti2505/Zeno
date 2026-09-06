@@ -58,6 +58,7 @@ export const createKitWorkflow = () => {
 };
 
 export const kitWorkflow = createKitWorkflow();
+export const workflow = kitWorkflow;
 
 /**
  * Complete Pipeline Runner: Executes the LangGraph workflow and builds the final validated Kit

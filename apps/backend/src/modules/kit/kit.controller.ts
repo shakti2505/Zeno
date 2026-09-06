@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as kitService from './kit.service';
 import { sendSuccess, sendCreated } from '../../utils/response';
-import { NotFoundError } from '../../utils/AppError';
+import { NotFoundError, BadRequestError } from '../../utils/AppError';
 
 export const createKit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -81,3 +81,54 @@ export const deleteKit = async (req: Request, res: Response, next: NextFunction)
     next(error);
   }
 };
+
+export const regenerateCategory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const userId = req.userId!;
+    const { id } = req.params;
+    const { category } = req.body;
+
+    if (!category || typeof category !== 'string') {
+      throw new BadRequestError('A valid category name is required for partial regeneration.');
+    }
+
+    const updatedKitData = await kitService.regenerateCategoryService(userId, id, category);
+
+    sendSuccess(
+      res,
+      { kit: { _id: id, data: updatedKitData } },
+      `Category '${category}' regenerated successfully.`
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateFlashcardConfidence = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const userId = req.userId!;
+    const { id } = req.params;
+    const { flashcardId, score } = req.body;
+
+    const updatedProgress = await kitService.updateFlashcardProgress(
+      userId,
+      id,
+      flashcardId,
+      score
+    );
+
+    sendSuccess(
+      res,
+      { flashcardProgress: updatedProgress },
+      'Flashcard confidence score updated successfully.'
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
+
